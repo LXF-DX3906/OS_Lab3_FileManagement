@@ -1,0 +1,10 @@
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\bin\Debug\FileManagement.exe.config
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\bin\Debug\FileManagement.exe
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\bin\Debug\FileManagement.pdb
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.csprojAssemblyReference.cache
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.MainWindow.resources
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.Properties.Resources.resources
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.csproj.GenerateResource.cache
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.csproj.CoreCompileInputs.cache
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.exe
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.pdb
