@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FileManagement
 
 {
-    public class TreeNode
+    public class Node
     {
         public enum NodeType { folder, file };  // 结点类型
         public List<int> childInodeIndex;  // 记录子文件

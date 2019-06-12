@@ -43,8 +43,9 @@
             this.重命名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.button1 = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip3.SuspendLayout();
             this.SuspendLayout();
@@ -64,7 +65,8 @@
             // 文件ToolStripMenuItem
             // 
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.新建ToolStripMenuItem});
+            this.新建ToolStripMenuItem,
+            this.删除ToolStripMenuItem1});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
             this.文件ToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.文件ToolStripMenuItem.Text = "文件";
@@ -75,7 +77,7 @@
             this.文件ToolStripMenuItem1,
             this.文件夹ToolStripMenuItem});
             this.新建ToolStripMenuItem.Name = "新建ToolStripMenuItem";
-            this.新建ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
+            this.新建ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.新建ToolStripMenuItem.Text = "新建";
             // 
             // 文件ToolStripMenuItem1
@@ -147,6 +149,13 @@
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "file.jpg");
+            this.imageList1.Images.SetKeyName(1, "folder.jpg");
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(166, 75);
@@ -157,12 +166,11 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.AddLabel);
             // 
-            // imageList1
+            // 删除ToolStripMenuItem1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "file.jpg");
-            this.imageList1.Images.SetKeyName(1, "folder.jpg");
+            this.删除ToolStripMenuItem1.Name = "删除ToolStripMenuItem1";
+            this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.删除ToolStripMenuItem1.Text = "删除";
             // 
             // MainWindow
             // 
@@ -202,6 +210,7 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem1;
     }
 }
 
