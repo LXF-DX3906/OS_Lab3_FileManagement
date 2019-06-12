@@ -57,8 +57,7 @@
     <Compile Include="Models\Catalog.cs" />
     <Compile Include="Models\FCB.cs" />
     <Compile Include="Models\File.cs" />
-    <Compile Include="Models\FileList.cs" />
-    <Compile Include="Models\TreeNode.cs" />
+    <Compile Include="Models\Node.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainWindow.resx">

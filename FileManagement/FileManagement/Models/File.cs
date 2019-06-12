@@ -8,29 +8,77 @@ namespace FileManagement
 {
     public class File
     {
-        private List<Block> blocklist;  // 数据块列表
         private FCB fcb;                // FCB
 
         //构造函数
-        public void File()
+        public File(String name, String type, String fatherPath)
         {
-            fcb.fileType = FCB.FileType.text;
-            fcb.fileName = "Newfile" + Enum.GetName(typeof(FCB.FileType), fcb.fileType);
+            fcb.fileType = FCB.FileType.txt;
+            fcb.fileName = name + type;
             fcb.createdTime = DateTime.Now;
             fcb.updatedTime = DateTime.Now;
+            fcb.fileSize = 0;
+            fcb.path = fatherPath + '\\' + name;
         }
-        //创建文件
-        public void createFile()
-        {
-            fcb.fileType = FCB.FileType.text;
-            fcb.fileName = "Newfile" + Enum.GetName(typeof(FCB.FileType), fcb.fileType);
-            fcb.createdTime = DateTime.Now;
-            fcb.updatedTime = DateTime.Now;
 
+        //清空文件块
+        public void setEmpty(ref BitMap bitmap)
+        {
+            for(int i=0; i < fcb.blocklist.Count(); i+=1)
+            {
+                bitmap.setFree(bitmap.findFreeBlock()); //置该块为空闲
+            }
+            fcb.blocklist.Clear();                      //清空块链表
+            fcb.fileSize = 0;                           //文件大小置为0
         }
+
         //写文件
+        public void write(String data, ref BitMap bitmap)
+        {
+            setEmpty(ref bitmap);
+            while (data.Count() > 512)
+            {
+                bitmap.blocks[bitmap.findFreeBlock()].setData(data.Substring(0, 512));   //每次截取512个字符加入寻找到的块中
+                fcb.blocklist.Add(bitmap.blocks[bitmap.findFreeBlock()]);                //将块加入块链表
+                bitmap.setOccupy(bitmap.findFreeBlock());                                //置此块为占用状态
+                fcb.fileSize += 512;
+                data = data.Remove(0,512);
+                
+            }
+            bitmap.blocks[bitmap.findFreeBlock()].setData(data);
+            fcb.fileSize += data.Length;
+        }
 
-        //打开文件&读文件
-        //删除文件
+        //读文件
+        //获取文件内容
+        public String getData()
+        {
+            string content = "";
+            for (int i = 0; i < fcb.blocklist.Count(); i += 1)
+            {
+                content += fcb.blocklist[i].getData();
+            }
+            return content;
+        }
+        //获取文件名称
+        public String getName()
+        {
+            return fcb.fileName;
+        }
+        //获取文件大小,单位为Byte
+        public int getfileSize()
+        {
+            return fcb.fileSize;
+        }
+        //获取文件创建时间
+        public DateTime getcreatedTime()
+        {
+            return fcb.createdTime;
+        }
+        //获取文件修改时间
+        public DateTime getupdatedTime()
+        {
+            return fcb.updatedTime;
+        }
     }
 }

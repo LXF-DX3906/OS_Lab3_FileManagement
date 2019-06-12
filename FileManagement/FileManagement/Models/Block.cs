@@ -10,14 +10,15 @@ namespace FileManagement
     {
         private const int BLOCKSIZE = 512;  // 数据块大小为512Bytes
         private char[] data;  // 一个数据块可以存储512个Unicode字符
-        private int length;
+        private int length;   // 块所用长度
+        public int blockNumber = 0; //块号
 
         public Block()
         {
             data = new char[BLOCKSIZE];
         }
 
-        public void setData(string new_data)
+        public void setData(String new_data)
         {
             length = (new_data.Length > 512) ? 512 : new_data.Length;
             for (int i = 0; i < length; i++)
@@ -26,9 +27,9 @@ namespace FileManagement
             }
         }
 
-        public string getData()
+        public String getData()
         {
-            string temp = new string(data);
+            String temp = new String(data);
             return temp;
         }
     }
