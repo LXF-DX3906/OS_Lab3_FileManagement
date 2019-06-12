@@ -8,7 +8,7 @@ namespace FileManagement
 {
     public class File
     {
-        private FCB fcb;                // FCB
+        private FCB fcb = new FCB();                // FCB
 
         //构造函数
         public File(String name, String type, String fatherPath)
@@ -18,6 +18,7 @@ namespace FileManagement
             fcb.createdTime = DateTime.Now;
             fcb.updatedTime = DateTime.Now;
             fcb.fileSize = 0;
+            fcb.blocklist = new List<Block>();
             fcb.path = fatherPath + '\\' + name;
         }
 
@@ -38,13 +39,14 @@ namespace FileManagement
             setEmpty(ref bitmap);
             while (data.Count() > 512)
             {
+                bitmap.blocks[bitmap.findFreeBlock()] = new Block();
                 bitmap.blocks[bitmap.findFreeBlock()].setData(data.Substring(0, 512));   //每次截取512个字符加入寻找到的块中
                 fcb.blocklist.Add(bitmap.blocks[bitmap.findFreeBlock()]);                //将块加入块链表
                 bitmap.setOccupy(bitmap.findFreeBlock());                                //置此块为占用状态
                 fcb.fileSize += 512;
                 data = data.Remove(0,512);
-                
             }
+            bitmap.blocks[bitmap.findFreeBlock()] = new Block();
             bitmap.blocks[bitmap.findFreeBlock()].setData(data);
             fcb.fileSize += data.Length;
         }

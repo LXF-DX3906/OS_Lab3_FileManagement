@@ -11,7 +11,7 @@ namespace FileManagement
         private const int BLOCKSIZE = 512;  // 数据块大小为512Bytes
         private char[] data;  // 一个数据块可以存储512个Unicode字符
         private int length;   // 块所用长度
-        public int blockNumber = 0; //块号
+        //public int blockNumber = 0; //块号
 
         public Block()
         {

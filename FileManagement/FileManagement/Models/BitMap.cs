@@ -19,7 +19,7 @@ namespace FileManagement
         {
             for (int i = 0; i < CAPCITY; i++)
             {
-                blocks[i].blockNumber = i;
+                //blocks[i].blockNumber = i;
                 bitMap[i] = true;
             }
         }

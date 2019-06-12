@@ -38,15 +38,17 @@
             this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.格式化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.重命名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新建ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.文件ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.文件夹ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.重命名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip3.SuspendLayout();
             this.SuspendLayout();
@@ -78,27 +80,27 @@
             this.文件ToolStripMenuItem1,
             this.文件夹ToolStripMenuItem});
             this.新建ToolStripMenuItem.Name = "新建ToolStripMenuItem";
-            this.新建ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.新建ToolStripMenuItem.Size = new System.Drawing.Size(114, 26);
             this.新建ToolStripMenuItem.Text = "新建";
             // 
             // 文件ToolStripMenuItem1
             // 
             this.文件ToolStripMenuItem1.Name = "文件ToolStripMenuItem1";
-            this.文件ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.文件ToolStripMenuItem1.Size = new System.Drawing.Size(129, 26);
             this.文件ToolStripMenuItem1.Text = "文件";
             this.文件ToolStripMenuItem1.Click += new System.EventHandler(this.文件ToolStripMenuItem1_Click);
             // 
             // 文件夹ToolStripMenuItem
             // 
             this.文件夹ToolStripMenuItem.Name = "文件夹ToolStripMenuItem";
-            this.文件夹ToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.文件夹ToolStripMenuItem.Size = new System.Drawing.Size(129, 26);
             this.文件夹ToolStripMenuItem.Text = "文件夹";
             this.文件夹ToolStripMenuItem.Click += new System.EventHandler(this.文件夹ToolStripMenuItem_Click);
             // 
             // 删除ToolStripMenuItem1
             // 
             this.删除ToolStripMenuItem1.Name = "删除ToolStripMenuItem1";
-            this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(114, 26);
             this.删除ToolStripMenuItem1.Text = "删除";
             // 
             // 格式化ToolStripMenuItem
@@ -118,44 +120,11 @@
             this.contextMenuStrip3.Name = "contextMenuStrip3";
             this.contextMenuStrip3.Size = new System.Drawing.Size(124, 100);
             // 
-            // 删除ToolStripMenuItem
+            // 打开ToolStripMenuItem
             // 
-            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.删除ToolStripMenuItem.Text = "删除";
-            this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
-            // 
-            // 重命名ToolStripMenuItem
-            // 
-            this.重命名ToolStripMenuItem.Name = "重命名ToolStripMenuItem";
-            this.重命名ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.重命名ToolStripMenuItem.Text = "重命名";
-            // 
-            // treeView1
-            // 
-            this.treeView1.ImageIndex = 1;
-            this.treeView1.ImageList = this.imageList1;
-            this.treeView1.Location = new System.Drawing.Point(0, 65);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.SelectedImageIndex = 1;
-            this.treeView1.Size = new System.Drawing.Size(211, 478);
-            this.treeView1.TabIndex = 1;
-            // 
-            // listView1
-            // 
-            this.listView1.LargeImageList = this.imageList1;
-            this.listView1.Location = new System.Drawing.Point(217, 65);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(743, 478);
-            this.listView1.TabIndex = 2;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "file.jpg");
-            this.imageList1.Images.SetKeyName(1, "folder.jpg");
+            this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
+            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.打开ToolStripMenuItem.Text = "打开";
             // 
             // 新建ToolStripMenuItem1
             // 
@@ -169,20 +138,71 @@
             // 文件ToolStripMenuItem2
             // 
             this.文件ToolStripMenuItem2.Name = "文件ToolStripMenuItem2";
-            this.文件ToolStripMenuItem2.Size = new System.Drawing.Size(216, 26);
+            this.文件ToolStripMenuItem2.Size = new System.Drawing.Size(129, 26);
             this.文件ToolStripMenuItem2.Text = "文件";
             // 
             // 文件夹ToolStripMenuItem1
             // 
             this.文件夹ToolStripMenuItem1.Name = "文件夹ToolStripMenuItem1";
-            this.文件夹ToolStripMenuItem1.Size = new System.Drawing.Size(216, 26);
+            this.文件夹ToolStripMenuItem1.Size = new System.Drawing.Size(129, 26);
             this.文件夹ToolStripMenuItem1.Text = "文件夹";
             // 
-            // 打开ToolStripMenuItem
+            // 重命名ToolStripMenuItem
             // 
-            this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
-            this.打开ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.打开ToolStripMenuItem.Text = "打开";
+            this.重命名ToolStripMenuItem.Name = "重命名ToolStripMenuItem";
+            this.重命名ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.重命名ToolStripMenuItem.Text = "重命名";
+            // 
+            // 删除ToolStripMenuItem
+            // 
+            this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.删除ToolStripMenuItem.Text = "删除";
+            this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
+            // 
+            // treeView1
+            // 
+            this.treeView1.ImageIndex = 1;
+            this.treeView1.ImageList = this.imageList1;
+            this.treeView1.Location = new System.Drawing.Point(0, 65);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.SelectedImageIndex = 1;
+            this.treeView1.Size = new System.Drawing.Size(211, 478);
+            this.treeView1.TabIndex = 1;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "file.jpg");
+            this.imageList1.Images.SetKeyName(1, "folder.jpg");
+            // 
+            // listView1
+            // 
+            this.listView1.LargeImageList = this.imageList1;
+            this.listView1.Location = new System.Drawing.Point(217, 65);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(743, 478);
+            this.listView1.TabIndex = 2;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(43, 32);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 19);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "地址：";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(115, 31);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(833, 25);
+            this.textBox1.TabIndex = 4;
             // 
             // MainWindow
             // 
@@ -190,6 +210,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(960, 539);
             this.ContextMenuStrip = this.contextMenuStrip3;
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.menuStrip1);
@@ -223,6 +245,8 @@
         private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem 文件夹ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

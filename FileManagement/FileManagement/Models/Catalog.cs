@@ -15,11 +15,20 @@ namespace FileManagement
 
         public Catalog(String namedata, String fatherPath)
         {
+            nodelist = new List<Node>();
             name = namedata;
             path = fatherPath + '\\' + namedata;
             childrenNum = 0;
         }
-        
+
+        public Catalog(String namedata)
+        {
+            nodelist = new List<Node>();
+            name = namedata;
+            path = namedata + ":\\";
+            childrenNum = 0;
+        }
+
         //添加文件夹结点
         public void addNode(String namedata, String fatherPath)
         {

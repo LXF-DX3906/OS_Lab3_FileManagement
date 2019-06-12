@@ -8,3 +8,4 @@ E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileMan
 E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.csproj.CoreCompileInputs.cache
 E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.exe
 E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.pdb
+E:\github\OS_Lab3_FileManagement\FileManagement\FileManagement\obj\Debug\FileManagement.FileEditor.resources

@@ -14,10 +14,13 @@ namespace FileManagement
     public partial class MainWindow : Form
     {
         TreeNode root_node;
-        Catalog root_catalog = new Catalog("root","root");
+        public BitMap bitmap = new BitMap();
+        Catalog root_catalog = new Catalog("root");
         public Catalog current_catalog;
+        private List<ListViewItem> listViewItems = new List<ListViewItem>();
+       // private Dictionary<int, ListViewItem> list_table = new Dictionary<int, ListViewItem>();
         //在当前目录创建catalog文件夹
-       
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,6 +31,8 @@ namespace FileManagement
         public void InitializeWindow()
         {
             InitiallizeTreeView();
+            InitializeListView();
+            textBox1.Text = current_catalog.path;
         }
 
         //初始化视图
@@ -49,12 +54,12 @@ namespace FileManagement
         //更新视图
         public void updateView()
         {
-            UpdateTreeView();
-            UpdateListView();
+            updateTreeView();
+            updateListView();
         }
 
         //更新文件目录
-        public void UpdateTreeView()
+        public void updateTreeView()
         {
             treeView1.Nodes.Clear();
             root_node = new TreeNode("root");
@@ -63,40 +68,40 @@ namespace FileManagement
         }
 
         //更新视图目录
-        public void UpdateListView()
+        public void updateListView()
         {
+            listViewItems = new List<ListViewItem>();
+            //list_table = new Dictionary<int, ListViewItem>();
             listView1.Items.Clear();
-            if (item.son != null)
+            if (current_catalog.nodelist != null)
             {
-                FCB son = item.son;
-                do
+                for(int i = 0; i< current_catalog.nodelist.Count(); i +=1)
                 {
-                    File temp = catalog.getFile(son);
-                    ListViewItem file = new ListViewItem(new string[]
-                    {
-                        temp.name,
-                        temp.size,
-                        temp.type,
-                        temp.createTime.ToString()
-                });
-                    if (temp.type == "folder")
-                        file.ImageIndex = 0;
+                    ListViewItem node = new ListViewItem();
+                    if (current_catalog.nodelist[i].nodeType == Node.NodeType.file)
+                        node.ImageIndex = 0;
                     else
-                        file.ImageIndex = 1;
-
-                    listMap(temp, file);
-                    listView1.Items.Add(file);
-                    son = son.next;
-                } while (son != null);
+                        node.ImageIndex = 1;
+                    node.Text = current_catalog.nodelist[i].name;
+                    listViewItems.Add(node);
+                    //list_table[i] = node;
+                    listView1.Items.Add(node);
+                }
             }
+        }
+
+        //更新地址
+        public void updateAddress()
+        {
+            textBox1.Text = current_catalog.path;
         }
 
         //递归增加子结点
         public void addTreeNode(TreeNode node, Catalog dir)
         {
-            if (dir != null)
+            if (dir.nodelist != null)
             { 
-               for(int i = 1; i < dir.nodelist.Count(); i+=1)
+               for(int i = 0; i < dir.nodelist.Count(); i+=1)
                {
                     if(dir.nodelist[i].nodeType == Node.NodeType.folder)
                     {
@@ -124,7 +129,6 @@ namespace FileManagement
             String fatherPath;
             fatherPath = current_catalog.path;
             current_catalog.addNode(file_name, fatherPath);
-            current_catalog = current_catalog.nodelist[current_catalog.nodelist.Count() - 1].folder;
             updateView();
         }
 
@@ -133,6 +137,64 @@ namespace FileManagement
 
         }
 
-        
+        //public int getPointer(ListViewItem item)
+        //{
+        //    if (list_table.ContainsValue(item))
+        //    {
+        //        foreach (KeyValuePair<int, ListViewItem> kvp in list_table)
+        //        {
+        //            if (kvp.Value.Equals(item))
+        //                return kvp.Key;
+        //        }
+        //        return -1;
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Can't get the pointer");
+        //        return -1;
+        //    }
+        //}
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            ListViewItem current_item = new ListViewItem();
+            if (listView1.SelectedItems.Count != 0)
+            {
+                current_item = listView1.SelectedItems[0];
+            }
+            else
+            {
+                MessageBox.Show("请选择一个项", "提示信息",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            for(int i = 0; i<current_catalog.nodelist.Count(); i+=1)
+            {
+                if(listViewItems[i] == current_item)
+                {
+                    Node current_node = current_catalog.nodelist[i];
+                    openListViewItem(ref current_node);
+                    break;
+                }
+            }
+        }
+
+        private void openListViewItem(ref Node node)
+        {
+            switch (node.nodeType)
+            {
+                case Node.NodeType.folder:
+                    current_catalog = node.folder;
+                    updateAddress();
+                    updateListView();
+                    break;
+                case Node.NodeType.file:
+                    FileEditor fileEditor = new FileEditor(ref bitmap, ref node.file);
+                    fileEditor.Show();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
