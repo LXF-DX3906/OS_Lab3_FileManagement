@@ -12,12 +12,19 @@ namespace FileManagement
         public int childrenNum;  // 子结点的数量
         public String name;  // 名字
         public String path;  //路径
+        public int fileSize;  // 文件大小
+        public DateTime createdTime;  // 创建时间
+        public DateTime updatedTime;  // 修改时间
+        public Catalog parent_catalog = null; //父母节点
 
         public Catalog(String namedata, String fatherPath)
         {
             nodelist = new List<Node>();
             name = namedata;
             path = fatherPath + '\\' + namedata;
+            createdTime = DateTime.Now;
+            updatedTime = DateTime.Now;
+            fileSize = 0;
             childrenNum = 0;
         }
 
@@ -26,15 +33,20 @@ namespace FileManagement
             nodelist = new List<Node>();
             name = namedata;
             path = namedata + ":\\";
+            createdTime = DateTime.Now;
+            updatedTime = DateTime.Now;
+            fileSize = 0;
             childrenNum = 0;
         }
 
         //添加文件夹结点
-        public void addNode(String namedata, String fatherPath)
+        public void addNode(Catalog par_catalog, String namedata, String fatherPath)
         {
             Node node = new Node(namedata, fatherPath);
+            node.folder.parent_catalog = par_catalog;
             nodelist.Add(node);
             childrenNum += 1;
+            updatedTime = DateTime.Now;
         }
 
         //添加文件结点
@@ -43,13 +55,7 @@ namespace FileManagement
             Node node = new Node(namedata, fileType, fatherPath);
             nodelist.Add(node);
             childrenNum += 1;
-        }
-
-        //删除结点
-        public void deleteNode(int i)
-        {
-            nodelist.RemoveAt(i);
-            childrenNum -= 1;
+            updatedTime = DateTime.Now;
         }
     }
 }

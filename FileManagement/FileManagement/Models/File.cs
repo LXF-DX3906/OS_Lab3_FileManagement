@@ -8,13 +8,14 @@ namespace FileManagement
 {
     public class File
     {
-        private FCB fcb = new FCB();                // FCB
+        public FCB fcb = new FCB();                // FCB
+
 
         //构造函数
         public File(String name, String type, String fatherPath)
         {
             fcb.fileType = FCB.FileType.txt;
-            fcb.fileName = name + type;
+            fcb.fileName = name;
             fcb.createdTime = DateTime.Now;
             fcb.updatedTime = DateTime.Now;
             fcb.fileSize = 0;
@@ -48,7 +49,10 @@ namespace FileManagement
             }
             bitmap.blocks[bitmap.findFreeBlock()] = new Block();
             bitmap.blocks[bitmap.findFreeBlock()].setData(data);
+            fcb.blocklist.Add(bitmap.blocks[bitmap.findFreeBlock()]);                //将块加入块链表
+            bitmap.setOccupy(bitmap.findFreeBlock());
             fcb.fileSize += data.Length;
+            fcb.updatedTime = DateTime.Now;
         }
 
         //读文件

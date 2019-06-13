@@ -18,7 +18,6 @@ namespace FileManagement
         Catalog root_catalog = new Catalog("root");
         public Catalog current_catalog;
         private List<ListViewItem> listViewItems = new List<ListViewItem>();
-       // private Dictionary<int, ListViewItem> list_table = new Dictionary<int, ListViewItem>();
         //在当前目录创建catalog文件夹
 
         public MainWindow()
@@ -56,6 +55,7 @@ namespace FileManagement
         {
             updateTreeView();
             updateListView();
+            updateAddress();
         }
 
         //更新文件目录
@@ -65,13 +65,13 @@ namespace FileManagement
             root_node = new TreeNode("root");
             addTreeNode(root_node, root_catalog);
             treeView1.Nodes.Add(root_node);
+            root_node.ExpandAll();
         }
 
         //更新视图目录
         public void updateListView()
         {
             listViewItems = new List<ListViewItem>();
-            //list_table = new Dictionary<int, ListViewItem>();
             listView1.Items.Clear();
             if (current_catalog.nodelist != null)
             {
@@ -79,12 +79,16 @@ namespace FileManagement
                 {
                     ListViewItem node = new ListViewItem();
                     if (current_catalog.nodelist[i].nodeType == Node.NodeType.file)
+                    {
                         node.ImageIndex = 0;
+                        node.Text = current_catalog.nodelist[i].name + ".txt";
+                    }
                     else
+                    {
                         node.ImageIndex = 1;
-                    node.Text = current_catalog.nodelist[i].name;
-                    listViewItems.Add(node);
-                    //list_table[i] = node;
+                        node.Text = current_catalog.nodelist[i].name;
+                    }
+                        listViewItems.Add(node);
                     listView1.Items.Add(node);
                 }
             }
@@ -115,46 +119,27 @@ namespace FileManagement
 
         private void 文件ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            String file_name = "NewTXT";
-            String fatherPath;
+            String file_name = "New File";
             String fileType = "txt";
-            fatherPath = current_catalog.path;
-            current_catalog.addNode(file_name,  fileType, fatherPath);
-            updateView();
+            file_name = nameCheck(file_name, fileType);
+            InputBox.operationType otype = InputBox.operationType.newfile;
+            InputBox newfile = new InputBox(current_catalog, file_name, fileType, otype);
+            newfile.Show();
+            newfile.CallBack = updateView;
         }
 
         private void 文件夹ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             String file_name = "New folder";
-            String fatherPath;
-            fatherPath = current_catalog.path;
-            current_catalog.addNode(file_name, fatherPath);
-            updateView();
+            String fileType = "";
+            file_name = nameCheck(file_name, fileType);
+            InputBox.operationType otype = InputBox.operationType.newfile;
+            InputBox newfile = new InputBox(current_catalog, file_name, fileType, otype);
+            newfile.Show();
+            newfile.CallBack = updateView;
         }
 
-        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        //public int getPointer(ListViewItem item)
-        //{
-        //    if (list_table.ContainsValue(item))
-        //    {
-        //        foreach (KeyValuePair<int, ListViewItem> kvp in list_table)
-        //        {
-        //            if (kvp.Value.Equals(item))
-        //                return kvp.Key;
-        //        }
-        //        return -1;
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Can't get the pointer");
-        //        return -1;
-        //    }
-        //}
-
+        //视图项双击
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
             ListViewItem current_item = new ListViewItem();
@@ -179,6 +164,7 @@ namespace FileManagement
             }
         }
 
+        //打开节点下视图
         private void openListViewItem(ref Node node)
         {
             switch (node.nodeType)
@@ -194,6 +180,249 @@ namespace FileManagement
                     break;
                 default:
                     break;
+            }
+        }
+
+
+        //检测重名
+        private String nameCheck(String name, String type)
+        {
+            int counter = 0;
+            if (type == "")
+            {
+                for (int i = 0; i < current_catalog.nodelist.Count(); i += 1)
+                {
+                    if (current_catalog.nodelist[i].nodeType == Node.NodeType.folder)
+                    {
+                        string[] sArray = current_catalog.nodelist[i].folder.name.Split('(');
+                        if (sArray[0] == name)
+                        {
+                            counter++;
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                for (int i = 0; i < current_catalog.nodelist.Count(); i += 1)
+                {
+                    if (current_catalog.nodelist[i].nodeType == Node.NodeType.file)
+                    {
+                        string[] sArray = current_catalog.nodelist[i].file.getName().Split('(');
+                        if (sArray[0] == name)
+                        {
+                            counter++;
+                        }
+                    }
+
+                }
+            }
+            if (counter > 0)
+                name += "(" + counter.ToString() + ")";
+            return name;
+        }
+
+        //返回按钮
+        private void 返回ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(current_catalog == root_catalog)
+            {
+                MessageBox.Show("已是根目录！", "提示信息", MessageBoxButtons.YesNo);
+            }
+            else
+            {
+                current_catalog = current_catalog.parent_catalog;
+            }
+            updateView();
+        }
+
+        //打开按钮
+        private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListViewItem current_item = new ListViewItem();
+            if (listView1.SelectedItems.Count != 0)
+            {
+                current_item = listView1.SelectedItems[0];
+            }
+            else
+            {
+                MessageBox.Show("请选择一个项", "提示信息",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            for (int i = 0; i < current_catalog.nodelist.Count(); i += 1)
+            {
+                if (listViewItems[i] == current_item)
+                {
+                    Node current_node = current_catalog.nodelist[i];
+                    openListViewItem(ref current_node);
+                    updataFolderSize(ref current_catalog);
+                    break;
+                }
+            }
+        }
+
+        //更新文件夹大小
+        private void updataFolderSize(ref Catalog current_catalog)
+        {
+            current_catalog.fileSize = 0;
+            for (int j = 0; j < current_catalog.nodelist.Count(); j++)
+            {
+                if (current_catalog.nodelist[j].nodeType == Node.NodeType.file)
+                    current_catalog.fileSize += current_catalog.nodelist[j].file.fcb.fileSize;
+                else
+                    current_catalog.fileSize += current_catalog.nodelist[j].folder.fileSize;
+            }
+        }
+
+        private void 文件ToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            String file_name = "New File";
+            String fileType = "txt";
+            file_name = nameCheck(file_name, fileType);
+            InputBox.operationType otype = InputBox.operationType.newfile;
+            InputBox newfile = new InputBox(current_catalog, file_name, fileType, otype);
+            newfile.Show();
+            newfile.CallBack = updateView;
+        }
+
+        private void 文件夹ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            String file_name = "New folder";
+            String fileType = "";
+            file_name = nameCheck(file_name, fileType);
+            InputBox.operationType otype = InputBox.operationType.newfile;
+            InputBox newfile = new InputBox(current_catalog, file_name, fileType, otype);
+            newfile.Show();
+            newfile.CallBack = updateView;
+        }
+
+        private void 重命名ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListViewItem current_item = new ListViewItem();
+            String fileType = "";
+            if (listView1.SelectedItems.Count != 0)
+            {
+                current_item = listView1.SelectedItems[0];
+            }
+            else
+            {
+                MessageBox.Show("请选择一个项", "提示信息",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            for (int i = 0; i < current_catalog.nodelist.Count(); i += 1)
+            {
+                if (listViewItems[i] == current_item)
+                {
+                    switch (current_catalog.nodelist[i].nodeType)
+                    {
+                        case Node.NodeType.folder:
+                            fileType = "";
+                            break;
+                        case Node.NodeType.file:
+                            fileType = "txt";
+                            break;
+                        default:
+                            break;
+                    }
+                    InputBox.operationType otype = InputBox.operationType.rename;
+                    InputBox newfile = new InputBox(current_catalog, current_catalog.nodelist[i].name, fileType, otype);
+                    newfile.Show();
+                    newfile.CallBack = updateView;
+                    break;
+                }
+            }
+        }
+
+        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListViewItem current_item = new ListViewItem();
+            String fileType = "";
+            if (listView1.SelectedItems.Count != 0)
+            {
+                current_item = listView1.SelectedItems[0];
+            }
+            else
+            {
+                MessageBox.Show("请选择一个项", "提示信息",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            for (int i = 0; i < current_catalog.nodelist.Count(); i += 1)
+            {
+                if (listViewItems[i] == current_item)
+                {
+                    current_catalog.updatedTime = DateTime.Now;
+                    delete(ref current_catalog.nodelist, i);
+                    updataFolderSize(ref current_catalog);
+                    updateView();
+                    break;
+                }
+            }
+        }
+
+        public void delete(ref List<Node> nodelist, int i)
+        {
+            if(nodelist[i].nodeType == Node.NodeType.file)
+            {
+                nodelist[i].file.setEmpty(ref bitmap);
+                nodelist.RemoveAt(i);
+                return;
+            }
+            else if(nodelist[i].nodeType == Node.NodeType.folder)
+            {
+                if (nodelist[i].folder.nodelist != null)
+                { 
+                    for (int j = 0; j < nodelist[i].folder.nodelist.Count(); j++)
+                    {
+                        delete(ref nodelist[i].folder.nodelist, j);
+                    }
+                    nodelist.RemoveAt(i);
+                }
+                else
+                {
+                    nodelist.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
+        private void 格式化ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (root_catalog.nodelist.Count() != 0)
+            {
+                for(int i = 0; i<root_catalog.nodelist.Count(); i++)
+                {
+                    delete(ref root_catalog.nodelist, i);
+                }
+            }
+            updataFolderSize(ref root_catalog);
+            updateView();
+        }
+
+        private void 详细信息ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListViewItem current_item = new ListViewItem();
+            String fileType = "";
+            if (listView1.SelectedItems.Count != 0)
+            {
+                current_item = listView1.SelectedItems[0];
+            }
+            else
+            {
+                MessageBox.Show("请选择一个项", "提示信息",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            for (int i = 0; i < current_catalog.nodelist.Count(); i += 1)
+            {
+                if (listViewItems[i] == current_item)
+                {
+                    Details details = new Details(current_catalog.nodelist[i]);
+                    details.Show();
+                }
             }
         }
     }

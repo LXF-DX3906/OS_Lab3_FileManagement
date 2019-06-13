@@ -13,7 +13,7 @@ namespace FileManagement
         public NodeType nodeType;   //结点类型
         public File file;           //节点内容
         public Catalog folder;      //节点内容
-        public String path;  // 父目录
+        public String path;  // 路径
         public String name;  // 名字
 
         public Node(String namedata, String fatherPath)   //文件夹结点
@@ -30,6 +30,22 @@ namespace FileManagement
             path = fatherPath + '\\' + namedata;
             name = namedata;
             file = new File(name, fileType, fatherPath);
+        }
+
+        public void changeName(String changed_name)
+        {
+            name = changed_name;
+            switch (nodeType)
+            {
+                case Node.NodeType.folder:
+                    folder.name = changed_name;
+                    break;
+                case Node.NodeType.file:
+                    file.fcb.fileName = changed_name;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
