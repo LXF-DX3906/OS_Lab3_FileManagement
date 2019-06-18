@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileManagement
 {
+    [Serializable]
     public class Catalog
     {
         public List<Node> nodelist; //目录中只含结点
@@ -17,6 +18,7 @@ namespace FileManagement
         public DateTime updatedTime;  // 修改时间
         public Catalog parent_catalog = null; //父母节点
 
+        //其他目录
         public Catalog(String namedata, String fatherPath)
         {
             nodelist = new List<Node>();
@@ -28,6 +30,7 @@ namespace FileManagement
             childrenNum = 0;
         }
 
+        //根目录
         public Catalog(String namedata)
         {
             nodelist = new List<Node>();

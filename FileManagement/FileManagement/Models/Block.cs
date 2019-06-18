@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileManagement
 {
+    [Serializable]
     public class Block
     {
         private const int BLOCKSIZE = 512;  // 数据块大小为512Bytes

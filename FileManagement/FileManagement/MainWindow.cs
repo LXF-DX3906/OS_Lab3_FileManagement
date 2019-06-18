@@ -8,9 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FileManagement
 {
+    [Serializable]
     public partial class MainWindow : Form
     {
         TreeNode root_node;
@@ -18,11 +21,14 @@ namespace FileManagement
         Catalog root_catalog = new Catalog("root");
         public Catalog current_catalog;
         private List<ListViewItem> listViewItems = new List<ListViewItem>();
+        public string dir = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Directory.GetCurrentDirectory()));
         //在当前目录创建catalog文件夹
 
         public MainWindow()
         {
             InitializeComponent();
+            BinaryDeserialize();
+            current_catalog = root_catalog;
             InitializeWindow();
         }
 
@@ -37,17 +43,13 @@ namespace FileManagement
         //初始化视图
         public void InitializeListView()
         {
-            listView1.Items.Clear();
+            updateListView();
         }
 
         //初始化文件目录
         public void InitiallizeTreeView()
         {
-            current_catalog = root_catalog;
-            treeView1.Nodes.Clear();
-            root_node = new TreeNode("root");
-            treeView1.Nodes.Add(root_node);
-            treeView1.SelectedNode = null;
+            updateTreeView();
         }
 
         //更新视图
@@ -99,6 +101,50 @@ namespace FileManagement
         {
             textBox1.Text = current_catalog.path;
         }
+
+        //序列化
+        private void BinarySerialize()
+        {
+            FileStream fileStream2, fileStream3;
+            BinaryFormatter bf = new BinaryFormatter();
+
+            //fileStream1 = new FileStream(System.IO.Path.Combine(dir, "root_node.dat"), FileMode.Create);
+            //bf.Serialize(fileStream1, root_node);
+            //fileStream1.Close();
+
+            fileStream2 = new FileStream(System.IO.Path.Combine(dir, "root_catalog.dat"), FileMode.Create);
+            bf.Serialize(fileStream2, root_catalog);
+            fileStream2.Close();
+
+            fileStream3 = new FileStream(System.IO.Path.Combine(dir, "bitmap.dat"), FileMode.Create);
+            bf.Serialize(fileStream3, bitmap);
+            fileStream3.Close();
+        }
+
+        //反序列化
+        private void BinaryDeserialize()
+        {
+            FileStream fileStream2, fileStream3;
+            BinaryFormatter bf = new BinaryFormatter();
+
+            //fileStream1 = new FileStream(System.IO.Path.Combine(dir, "root_node.dat"), FileMode.Open, FileAccess.Read, FileShare.Read);
+            //root_node = bf.Deserialize(fileStream1) as Node;
+            //fileStream1.Close();
+            bool rootb = System.IO.File.Exists(System.IO.Path.Combine(dir, "root_catalog.dat"));
+
+
+            if (System.IO.File.Exists(System.IO.Path.Combine(dir, "root_catalog.dat")) && System.IO.File.Exists(System.IO.Path.Combine(dir, "bitmap.dat")))
+            {
+                fileStream2 = new FileStream(System.IO.Path.Combine(dir, "root_catalog.dat"), FileMode.Open, FileAccess.Read, FileShare.Read);
+                root_catalog = bf.Deserialize(fileStream2) as Catalog;
+                fileStream2.Close();
+
+                fileStream3 = new FileStream(System.IO.Path.Combine(dir, "bitmap.dat"), FileMode.Open, FileAccess.Read, FileShare.Read);
+                bitmap = bf.Deserialize(fileStream3) as BitMap;
+                fileStream3.Close();
+            }
+        }
+
 
         //递归增加子结点
         public void addTreeNode(TreeNode node, Catalog dir)
@@ -365,32 +411,37 @@ namespace FileManagement
 
         public void delete(ref List<Node> nodelist, int i)
         {
-            if(nodelist[i].nodeType == Node.NodeType.file)
+            if (nodelist.Count() > 0)
             {
-                nodelist[i].file.setEmpty(ref bitmap);
-                nodelist.RemoveAt(i);
-                return;
-            }
-            else if(nodelist[i].nodeType == Node.NodeType.folder)
-            {
-                if (nodelist[i].folder.nodelist != null)
-                { 
-                    for (int j = 0; j < nodelist[i].folder.nodelist.Count(); j++)
-                    {
-                        delete(ref nodelist[i].folder.nodelist, j);
-                    }
-                    nodelist.RemoveAt(i);
-                }
-                else
+                if (nodelist[i].nodeType == Node.NodeType.file)
                 {
+                    nodelist[i].file.setEmpty(ref bitmap);
                     nodelist.RemoveAt(i);
                     return;
                 }
+                else if (nodelist[i].nodeType == Node.NodeType.folder)
+                {
+                    if (nodelist[i].folder.nodelist != null)
+                    {
+                        for (int j = 0; j < nodelist[i].folder.nodelist.Count(); j++)
+                        {
+                            delete(ref nodelist[i].folder.nodelist, j);
+                        }
+                        nodelist.RemoveAt(i);
+                    }
+                    else
+                    {
+                        nodelist.RemoveAt(i);
+                        return;
+                    }
+                }
             }
+            return;
         }
 
         private void 格式化ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            delete(ref current_catalog.nodelist, 0);
             if (root_catalog.nodelist.Count() != 0)
             {
                 for(int i = 0; i<root_catalog.nodelist.Count(); i++)
@@ -398,7 +449,8 @@ namespace FileManagement
                     delete(ref root_catalog.nodelist, i);
                 }
             }
-            updataFolderSize(ref root_catalog);
+            root_catalog = new Catalog("root");
+            current_catalog = root_catalog;
             updateView();
         }
 
@@ -424,6 +476,11 @@ namespace FileManagement
                     details.Show();
                 }
             }
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            BinarySerialize();
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace FileManagement
 
 {
+    [Serializable]
     public class Node
     {
         public enum NodeType { folder, file };  // 结点类型
@@ -19,7 +20,7 @@ namespace FileManagement
         public Node(String namedata, String fatherPath)   //文件夹结点
         {
             nodeType = NodeType.folder;
-            path = fatherPath + '\\' + namedata;
+            path = fatherPath + "\\" + namedata;
             name = namedata;
             folder = new Catalog(namedata, fatherPath);
         }
@@ -38,10 +39,14 @@ namespace FileManagement
             switch (nodeType)
             {
                 case Node.NodeType.folder:
+                    folder.path = folder.path.Remove(folder.path.Length-folder.name.Length-1,folder.name.Length+1);
                     folder.name = changed_name;
+                    folder.path = folder.path + "\\" + folder.name;
                     break;
                 case Node.NodeType.file:
+                    file.fcb.path = file.fcb.path.Remove(file.fcb.path.Length - file.fcb.fileName.Length - 1, file.fcb.fileName.Length + 1);
                     file.fcb.fileName = changed_name;
+                    file.fcb.path = file.fcb.path + "\\" + file.fcb.fileName;
                     break;
                 default:
                     break;

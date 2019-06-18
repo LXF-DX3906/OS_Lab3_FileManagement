@@ -58,6 +58,7 @@ namespace FileManagement
                     {
                         if (current_catalog.nodelist[i].name == file_name && current_catalog.nodelist[i].nodeType == Node.NodeType.file)
                         {
+
                             current_catalog.nodelist[i].changeName(textBox1.Text);
                             break;
                         }

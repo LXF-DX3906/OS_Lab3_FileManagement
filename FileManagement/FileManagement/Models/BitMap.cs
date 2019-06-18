@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileManagement
 {
+    [Serializable]
     public class BitMap
     {
         private const int BYTESIZE = 8;    //字长，模拟一字节8位

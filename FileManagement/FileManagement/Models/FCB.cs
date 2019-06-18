@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileManagement
 {
+    [Serializable]
     public class FCB
     {
         public enum FileType { txt };  // 文件类型枚举

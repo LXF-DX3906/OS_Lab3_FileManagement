@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileManagement
 {
+    [Serializable]
     public class File
     {
         public FCB fcb = new FCB();                // FCB
@@ -20,7 +21,7 @@ namespace FileManagement
             fcb.updatedTime = DateTime.Now;
             fcb.fileSize = 0;
             fcb.blocklist = new List<Block>();
-            fcb.path = fatherPath + '\\' + name;
+            fcb.path = fatherPath + "\\" + name;
         }
 
         //清空文件块
