@@ -11,7 +11,6 @@ namespace FileManagement
     {
         public FCB fcb = new FCB();                // FCB
 
-
         //构造函数
         public File(String name, String type, String fatherPath)
         {

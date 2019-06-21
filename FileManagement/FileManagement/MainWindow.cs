@@ -16,9 +16,9 @@ namespace FileManagement
     [Serializable]
     public partial class MainWindow : Form
     {
-        TreeNode root_node;
+        public TreeNode root_node;
         public BitMap bitmap = new BitMap();
-        Catalog root_catalog = new Catalog("root");
+        public Catalog root_catalog = new Catalog("root");
         public Catalog current_catalog;
         private List<ListViewItem> listViewItems = new List<ListViewItem>();
         public string dir = System.IO.Path.GetDirectoryName(System.IO.Path.GetDirectoryName(Directory.GetCurrentDirectory()));
